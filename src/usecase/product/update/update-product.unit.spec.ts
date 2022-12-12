@@ -24,7 +24,7 @@ describe("Unit test for update product use case", () => {
     };
   });
 
-  it("should update a customer", async () => {
+  it("should update a product", async () => {
     const updateProductUseCase = new UpdateProductUseCase(productRepository);
 
     const output = await updateProductUseCase.execute(input);
