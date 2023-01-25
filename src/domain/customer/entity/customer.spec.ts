@@ -1,14 +1,27 @@
 import Address from "../value-object/address";
 import Customer from "./customer";
-
+import { Notification } from "../../@shared/notification/notification";
 
 describe("Customer unit tests", () => {
 
   it("should throw error when name is empty", () => {
     expect(() => {
-      new Customer("");
-    }).toThrowError("Name is required");
+      new Customer("", "123");
+    }).toThrowError("customer: Name is required");
   });
+
+  it("should throw error when id is empty", () => {
+    expect(() => {
+      new Customer("John", "");
+    }).toThrowError("customer: Id is required");
+  });
+
+  it("should throw error when name is and id are empty", () => {
+    expect(() => {
+      new Customer("", "");
+    }).toThrowError("customer: Name is required,customer: Id is required");
+  });
+
 
   it("should change name", () => {
     const customer = new Customer("Igor");
@@ -53,4 +66,30 @@ describe("Customer unit tests", () => {
     customer.addRewardPoints(15);
     expect(customer.rewardPoints).toBe(25);
   });
+
+  it("should check id notification has at least one error", () => {
+    const notification = new Notification();
+    
+    const error = {
+      message: "error message",
+      context: "customer"  
+    }
+    
+    notification.addError(error)
+
+    expect(notification.hasErrors()).toBe(true);
+  })
+
+  it('should get all errors props', () => {
+    const notification = new Notification();
+   
+    const error = {
+      message: "error message",
+      context: "customer"
+    }
+   
+    notification.addError(error)
+ 
+    expect(notification.getErrors()).toEqual([error]);
+  })
 });
